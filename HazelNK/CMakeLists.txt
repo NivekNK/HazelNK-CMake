@@ -58,3 +58,8 @@ PUBLIC
 PRIVATE
     vendor/GLFW/include
 )
+
+target_include_directories(spdlog
+PRIVATE
+    vendor/fmt/include
+)

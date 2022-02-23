@@ -86,10 +86,10 @@ namespace nk
 		Dispatcher m_Dispatcher;
 	};
 
-	inline std::ostream& operator<<(std::ostream& os, const Event& e)
+	/*inline std::ostream& operator<<(std::ostream& os, const Event& e)
 	{
 		return os << e.ToString();
-	}
+	}*/
 
 	template <typename T>
 	struct fmt::formatter<T, std::enable_if_t<std::is_base_of_v<nk::Event, T>, char>> : formatter<std::string>
