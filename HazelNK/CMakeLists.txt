@@ -21,6 +21,7 @@ add_subdirectory(vendor/fmt)
 add_subdirectory(vendor/spdlog)
 add_subdirectory(vendor/eventpp)
 add_subdirectory(vendor/GLFW)
+add_subdirectory(vendor/glad)
 
 file(GLOB SOURCES CMAKE_CONFIGURE_DEPENDS
     src/*.cpp
@@ -41,6 +42,7 @@ target_link_libraries(HazelNuK PUBLIC
     fmt::fmt
     spdlog
     glfw
+    glad
     OpenGL::GL
 )
 
@@ -57,6 +59,7 @@ PUBLIC
     vendor/eventpp/include
 PRIVATE
     vendor/GLFW/include
+    vendor/glad/include
 )
 
 target_include_directories(spdlog

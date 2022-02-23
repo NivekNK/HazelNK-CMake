@@ -2,11 +2,11 @@
 
 #include "Application.h"
 
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace nk
 {
-#define BIND_EVENT_FN(x) [this](auto&& arg1, auto arg2){ x(std::forward<decltype(arg1)>(arg1), std::forward<decltype(arg2)>(arg2)); SetEventHandle(std::forward<decltype(arg1)>(arg1), std::forward<decltype(arg2)>(arg2)); }
+#define BIND_EVENT_FN(x) [this](auto&&... args) { x(std::forward<decltype(args)>(args)...); SetEventHandle(std::forward<decltype(args)>(args)...); }
 
 	Application::Application()
 	{
