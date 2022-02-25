@@ -8,8 +8,13 @@ namespace nk
 {
 #define BIND_EVENT_FN(x) [this](auto&&... args) { x(std::forward<decltype(args)>(args)...); SetEventHandle(std::forward<decltype(args)>(args)...); }
 
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application()
 	{
+		NK_CORE_ASSERT(!s_Instance, "Application already exists!");
+		s_Instance = this;
+
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback([this](auto&& arg) { OnEvent(std::forward<decltype(arg)>(arg)); });
 
@@ -52,11 +57,13 @@ namespace nk
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
 		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
 	}
 
 	void Application::OnWindowClose(Event& event, const EventType eventType)

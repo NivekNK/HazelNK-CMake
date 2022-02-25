@@ -22,6 +22,7 @@ add_subdirectory(vendor/spdlog)
 add_subdirectory(vendor/eventpp)
 add_subdirectory(vendor/GLFW)
 add_subdirectory(vendor/glad)
+add_subdirectory(vendor/ImGui)
 
 file(GLOB SOURCES CMAKE_CONFIGURE_DEPENDS
     src/*.cpp
@@ -30,6 +31,10 @@ file(GLOB SOURCES CMAKE_CONFIGURE_DEPENDS
     src/Hazel/*.h
     src/Hazel/Events/*.cpp
     src/Hazel/Events/*.h
+    src/Hazel/ImGui/*.cpp
+    src/Hazel/ImGui/*.h
+    src/Platform/OpenGL/*.cpp
+    src/Platform/OpenGL/*.h
     src/Platform/Windows/*.cpp
     src/Platform/Windows/*.h
 )
@@ -43,6 +48,7 @@ target_link_libraries(HazelNuK PUBLIC
     spdlog
     glfw
     glad
+    ImGui
     OpenGL::GL
 )
 
@@ -57,6 +63,7 @@ PUBLIC
     vendor/fmt/include
     vendor/spdlog/include
     vendor/eventpp/include
+    vendor/ImGui/imgui
 PRIVATE
     vendor/GLFW/include
     vendor/glad/include
