@@ -25,8 +25,7 @@ namespace nk
 
 		static Application& Get() { return *s_Instance; }
 	private:
-		void OnWindowClose(Event& event, EventType eventType);
-		void SetEventHandle(Event& event, EventType eventType);
+		bool OnWindowClose(Event& event, EventType eventType);
 
 		EventDispatcher<Event> m_Dispatcher;
 

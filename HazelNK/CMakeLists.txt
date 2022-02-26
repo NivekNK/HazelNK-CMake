@@ -41,7 +41,7 @@ file(GLOB SOURCES CMAKE_CONFIGURE_DEPENDS
 
 add_library(HazelNuK SHARED ${SOURCES})
 
-find_package(OpenGL REQUIRED)
+#find_package(OpenGL REQUIRED)
 
 target_link_libraries(HazelNuK PUBLIC
     fmt::fmt
@@ -49,7 +49,7 @@ target_link_libraries(HazelNuK PUBLIC
     glfw
     glad
     ImGui
-    OpenGL::GL
+    #OpenGL::GL
 )
 
 target_precompile_headers(HazelNuK PUBLIC src/nkpch.h)

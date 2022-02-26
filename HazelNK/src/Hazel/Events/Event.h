@@ -92,7 +92,7 @@ namespace nk
 	}*/
 
 	template <typename T>
-	struct fmt::formatter<T, std::enable_if_t<std::is_base_of_v<nk::Event, T>, char>> : formatter<std::string>
+	struct fmt::formatter<T, std::enable_if_t<std::is_base_of_v<nk::Event, T>, char>> : fmt::formatter<std::string>
 	{
 		template <typename FormatContext>
 		auto format(const nk::Event& e, FormatContext& ctx)

@@ -2,16 +2,30 @@
 
 #include "ImGuiLayer.h"
 
-#include <GLFW/glfw3.h>
-
+#include "Hazel/Core.h"
 #include "Hazel/Application.h"
+#include "Hazel/Events/ApplicationEvent.h"
+#include "Hazel/Events/MouseEvent.h"
+#include "Hazel/Events/KeyEvent.h"
 #include "Platform/OpenGL/imgui_impl_opengl3.h"
+
+// TEMPORARY
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace nk
 {
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer")
 	{
+        m_Dispatcher.AddListener(EventType::MouseButtonPressed, NK_BIND_EVENT_FN(OnMouseButtonPressedEvent));
+        m_Dispatcher.AddListener(EventType::MouseButtonReleased, NK_BIND_EVENT_FN(OnMouseButtonReleasedEvent));
+        m_Dispatcher.AddListener(EventType::MouseMoved, NK_BIND_EVENT_FN(OnMouseMovedEvent));
+        m_Dispatcher.AddListener(EventType::MouseScrolled, NK_BIND_EVENT_FN(OnMouseScrolledEvent));
+        m_Dispatcher.AddListener(EventType::KeyPressed, NK_BIND_EVENT_FN(OnKeyPressedEvent));
+        m_Dispatcher.AddListener(EventType::KeyReleased, NK_BIND_EVENT_FN(OnKeyReleasedEvent));
+        m_Dispatcher.AddListener(EventType::KeyTyped, NK_BIND_EVENT_FN(OnKeyTypedEvent));
+        m_Dispatcher.AddListener(EventType::WindowResize, NK_BIND_EVENT_FN(OnWindowResizeEvent));
 	}
 
     ImGuiLayer::~ImGuiLayer()
@@ -56,11 +70,111 @@ namespace nk
 
 	void ImGuiLayer::OnEvent(Event& event)
 	{
+        m_Dispatcher.Dispatch(event, EventType::MouseButtonPressed);
+        m_Dispatcher.Dispatch(event, EventType::MouseButtonReleased);
+        m_Dispatcher.Dispatch(event, EventType::MouseMoved);
+        m_Dispatcher.Dispatch(event, EventType::MouseScrolled);
+        m_Dispatcher.Dispatch(event, EventType::KeyPressed);
+        m_Dispatcher.Dispatch(event, EventType::KeyReleased);
+        m_Dispatcher.Dispatch(event, EventType::KeyTyped);
+        m_Dispatcher.Dispatch(event, EventType::WindowResize);
+	}
+
+    bool ImGuiLayer::OnMouseButtonPressedEvent(Event& e, const EventType eventType)
+	{
+		const auto& event = dynamic_cast<MouseButtonPressedEvent&>(e);
+
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseDown[event.GetMouseButton()] = true;
+
+        return false;
+	}
+
+    bool ImGuiLayer::OnMouseButtonReleasedEvent(Event& e, const EventType eventType)
+	{
+        const auto& event = dynamic_cast<MouseButtonReleasedEvent&>(e);
+
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseDown[event.GetMouseButton()] = false;
+
+        return false;
+	}
+
+    bool ImGuiLayer::OnMouseMovedEvent(Event& e, const EventType eventType)
+	{
+        const auto& event = dynamic_cast<MouseMovedEvent&>(e);
+
+        ImGuiIO& io = ImGui::GetIO();
+        io.MousePos = ImVec2(event.GetX(), event.GetY());
+
+        return false;
+	}
+
+    bool ImGuiLayer::OnMouseScrolledEvent(Event& e, const EventType eventType)
+	{
+        const auto& event = dynamic_cast<MouseScrolledEvent&>(e);
+
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseWheelH += event.GetXOffset();
+        io.MouseWheel += event.GetYOffset();
+
+        return false;
+	}
+
+    bool ImGuiLayer::OnKeyPressedEvent(Event& e, const EventType eventType)
+	{
+        const auto& event = dynamic_cast<KeyPressedEvent&>(e);
+
+        ImGuiIO& io = ImGui::GetIO();
+
+        io.AddKeyEvent(ImGuiKey_ModCtrl, (event.GetMods() & GLFW_MOD_CONTROL) != 0);
+        io.AddKeyEvent(ImGuiKey_ModShift, (event.GetMods() & GLFW_MOD_SHIFT) != 0);
+        io.AddKeyEvent(ImGuiKey_ModAlt, (event.GetMods() & GLFW_MOD_ALT) != 0);
+        io.AddKeyEvent(ImGuiKey_ModSuper, (event.GetMods() & GLFW_MOD_SUPER) != 0);
+
+        const ImGuiKey imGuiKey = ImGui_ImplGlfw_KeyToImGuiKey(event.GetKeyCode());
+        io.AddKeyEvent(imGuiKey, true);
+
+        return false;
+	}
+
+    bool ImGuiLayer::OnKeyReleasedEvent(Event& e, const EventType eventType)
+	{
+        const auto& event = dynamic_cast<KeyReleasedEvent&>(e);
+
+        ImGuiIO& io = ImGui::GetIO();
+        const ImGuiKey imGuiKey = ImGui_ImplGlfw_KeyToImGuiKey(event.GetKeyCode());
+        io.AddKeyEvent(imGuiKey, false);
+
+        return false;
+	}
+
+    bool ImGuiLayer::OnKeyTypedEvent(Event& e, EventType eventType)
+	{
+        const auto& event = dynamic_cast<KeyTypedEvent&>(e);
+
+        ImGuiIO& io = ImGui::GetIO();
+        if (const int keycode = event.GetKeyCode(); keycode > 0 && keycode < 0x10000)
+			io.AddInputCharacter(static_cast<unsigned>(keycode));
+
+        return false;
+	}
+
+    bool ImGuiLayer::OnWindowResizeEvent(Event& e, const EventType eventType)
+	{
+        const auto& event = dynamic_cast<WindowResizeEvent&>(e);
+
+        ImGuiIO& io = ImGui::GetIO();
+        io.DisplaySize = ImVec2(event.GetWidth(), event.GetHeight());
+        io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+        glViewport(0, 0, event.GetWidth(), event.GetHeight());
+
+        return false;
 	}
 
     // HACK: Change to NK Key Codes
-	ImGuiKey ImGuiLayer::ImGui_ImplGlfw_KeyToImGuiKey(const int key)
-	{
+    ImGuiKey ImGuiLayer::ImGui_ImplGlfw_KeyToImGuiKey(const int key)
+    {
         switch (key)
         {
         case GLFW_KEY_TAB: return ImGuiKey_Tab;
@@ -170,5 +284,5 @@ namespace nk
         case GLFW_KEY_F12: return ImGuiKey_F12;
         default: return ImGuiKey_None;
         }
-	}
+    }
 }

@@ -19,3 +19,5 @@
 #endif
 
 #define BIT(x) (1 << x)
+
+#define NK_BIND_EVENT_FN(fn) [this](Event& event, const EventType eventType) { event.Handled = fn(event, eventType); }

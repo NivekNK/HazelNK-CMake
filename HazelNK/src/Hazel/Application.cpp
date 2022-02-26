@@ -6,8 +6,6 @@
 
 namespace nk
 {
-#define BIND_EVENT_FN(x) [this](auto&&... args) { x(std::forward<decltype(args)>(args)...); SetEventHandle(std::forward<decltype(args)>(args)...); }
-
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application()
@@ -18,7 +16,7 @@ namespace nk
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback([this](auto&& arg) { OnEvent(std::forward<decltype(arg)>(arg)); });
 
-		m_Dispatcher.AddListener(EventType::WindowClose, BIND_EVENT_FN(OnWindowClose));
+		m_Dispatcher.AddListener(EventType::WindowClose, NK_BIND_EVENT_FN(OnWindowClose));
 	}
 
 	Application::~Application()
@@ -66,13 +64,9 @@ namespace nk
 		overlay->OnAttach();
 	}
 
-	void Application::OnWindowClose(Event& event, const EventType eventType)
+	bool Application::OnWindowClose(Event& event, const EventType eventType)
 	{
 		m_Running = false;
-	}
-
-	void Application::SetEventHandle(Event& event, const EventType eventType)
-	{
-		event.Handled = true;
+		return true;
 	}
 }

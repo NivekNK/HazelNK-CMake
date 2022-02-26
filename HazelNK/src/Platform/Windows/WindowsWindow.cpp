@@ -77,26 +77,26 @@ namespace nk
 			data.EventCallback(event);
 		});
 
-		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, const int key, int scanCode, int action, int mods)
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, const int keycode, int scanCode, int action, const int mods)
 		{
 			const WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 			switch (action)
 			{
 				case GLFW_PRESS:
 				{
-					KeyPressedEvent event(key, 0);
+					KeyPressedEvent event(keycode, mods, 0);
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					KeyReleasedEvent event(key);
+					KeyReleasedEvent event(keycode, mods);
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_REPEAT:
 				{
-					KeyPressedEvent event(key, 1);
+					KeyPressedEvent event(keycode, mods, 1);
 					data.EventCallback(event);
 					break;
 				}
@@ -106,6 +106,13 @@ namespace nk
 					break;
 				}
 			}
+		});
+
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode)
+		{
+			const WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+			KeyTypedEvent event(keycode, -1);
+			data.EventCallback(event);
 		});
 
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, const int button, int action, int mods)
@@ -159,7 +166,7 @@ namespace nk
 		glfwSwapBuffers(m_Window);
 	}
 
-	void WindowsWindow::SetVSync(bool enabled)
+	void WindowsWindow::SetVSync(const bool enabled)
 	{
 		if (enabled)
 			glfwSwapInterval(1);

@@ -8,20 +8,22 @@ namespace nk
 	{
 	public:
 		int GetKeyCode() const { return m_KeyCode; }
+		int GetMods() const { return m_Mods; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
-		KeyEvent(const int keycode)
-			: m_KeyCode(keycode) {}
+		KeyEvent(const int keycode, const int mods)
+			: m_KeyCode(keycode), m_Mods(mods) {}
 
 		int m_KeyCode;
+		int m_Mods;
 	};
 
 	class NK_API KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(const int keycode, const int repeatCount)
-			: KeyEvent(keycode), m_RepeatCount(repeatCount) {}
+		KeyPressedEvent(const int keycode, const int mods, const int repeatCount)
+			: KeyEvent(keycode, mods), m_RepeatCount(repeatCount) {}
 
 		int GetRepeatCunt() const { return m_RepeatCount; }
 
@@ -38,8 +40,8 @@ namespace nk
 	class NK_API KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(const int keycode)
-			: KeyEvent(keycode) {}
+		KeyReleasedEvent(const int keycode, const int mods)
+			: KeyEvent(keycode, mods) {}
 
 		std::string ToString() const override
 		{
@@ -52,8 +54,8 @@ namespace nk
 	class NK_API KeyTypedEvent : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(const int keycode)
-			: KeyEvent(keycode) {}
+		KeyTypedEvent(const int keycode, const int mods)
+			: KeyEvent(keycode, mods) {}
 
 		std::string ToString() const override
 		{
