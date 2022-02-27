@@ -25,18 +25,18 @@ add_subdirectory(vendor/glad)
 add_subdirectory(vendor/ImGui)
 
 file(GLOB SOURCES CMAKE_CONFIGURE_DEPENDS
-    src/*.cpp
     src/*.h
-    src/Hazel/*.cpp
+    src/*.cpp
     src/Hazel/*.h
-    src/Hazel/Events/*.cpp
+    src/Hazel/*.cpp
     src/Hazel/Events/*.h
-    src/Hazel/ImGui/*.cpp
+    src/Hazel/Events/*.cpp
     src/Hazel/ImGui/*.h
-    src/Platform/OpenGL/*.cpp
+    src/Hazel/ImGui/*.cpp
     src/Platform/OpenGL/*.h
-    src/Platform/Windows/*.cpp
+    src/Platform/OpenGL/*.cpp
     src/Platform/Windows/*.h
+    src/Platform/Windows/*.cpp
 )
 
 add_library(HazelNuK SHARED ${SOURCES})

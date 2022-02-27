@@ -2,6 +2,8 @@
 
 #include "Application.h"
 
+#include "Hazel/Input.h"
+
 #include <glad/glad.h>
 
 namespace nk
@@ -30,6 +32,14 @@ namespace nk
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			auto [x, y] = Input::GetMousePosition();
+			DebugCoreTrace("{}, {}", x, y);
+
+			if (Input::IsMouseButtonPressed(0))
+			{
+				DebugCoreInfo("Pressed {}", 0);
+			}
 
 			m_Window->OnUpdate();
 		}

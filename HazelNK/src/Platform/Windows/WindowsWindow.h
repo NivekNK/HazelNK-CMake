@@ -22,11 +22,11 @@ namespace nk
 		virtual void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		virtual void SetVSync(bool enabled) override;
 		[[nodiscard]] virtual bool IsVSync() const override;
+
+		[[nodiscard]] virtual void* GetNativeWindow() const override { return m_Window; }
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
-
-		GLFWwindow* m_Window{};
 
 		struct WindowData
 		{
@@ -37,6 +37,7 @@ namespace nk
 			EventCallbackFn EventCallback;
 		};
 
+		GLFWwindow* m_Window;
 		WindowData m_Data;
 	};
 }
