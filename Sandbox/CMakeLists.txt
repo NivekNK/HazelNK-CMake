@@ -15,3 +15,5 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 target_link_libraries(Sandbox PRIVATE HazelNuK)
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Sandbox)

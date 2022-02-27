@@ -37,12 +37,12 @@ namespace nk
 	public:
 		bool Handled = false;
 
-		virtual EventType GetEventType() const = 0;
-		virtual const char* GetName() const = 0;
-		virtual int GetCategoryFlags() const = 0;
-		virtual std::string ToString() const { return GetName(); }
+		[[nodiscard]] virtual EventType GetEventType() const = 0;
+		[[nodiscard]] virtual const char* GetName() const = 0;
+		[[nodiscard]] virtual int GetCategoryFlags() const = 0;
+		[[nodiscard]] virtual std::string ToString() const { return GetName(); }
 
-		bool IsInCategory(const EventCategory category) const { return GetCategoryFlags() & category; }
+		[[nodiscard]] bool IsInCategory(const EventCategory category) const { return GetCategoryFlags() & category; }
 	};
 
 	template<typename E>
@@ -85,19 +85,14 @@ namespace nk
 	private:
 		Dispatcher m_Dispatcher;
 	};
-
-	/*inline std::ostream& operator<<(std::ostream& os, const Event& e)
-	{
-		return os << e.ToString();
-	}*/
-
-	template <typename T>
-	struct fmt::formatter<T, std::enable_if_t<std::is_base_of_v<nk::Event, T>, char>> : fmt::formatter<std::string>
-	{
-		template <typename FormatContext>
-		auto format(const nk::Event& e, FormatContext& ctx)
-		{
-			return formatter<std::string>::format(e.ToString(), ctx);
-		}
-	};
 }
+
+template <typename T>
+struct fmt::formatter<T, std::enable_if_t<std::is_base_of_v<nk::Event, T>, char>> : formatter<std::string>
+{
+	template <typename FormatContext>
+	auto format(const nk::Event& e, FormatContext& ctx)
+	{
+		return formatter<std::string>::format(e.ToString(), ctx);
+	}
+};

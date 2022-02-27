@@ -10,10 +10,10 @@ namespace nk
 		WindowResizeEvent(const unsigned int width, const unsigned int height)
 			: m_Width(width), m_Height(height) {}
 
-		unsigned int GetWidth() const { return m_Width; }
-		unsigned int GetHeight() const { return m_Height; }
+		[[nodiscard]] unsigned int GetWidth() const { return m_Width; }
+		[[nodiscard]] unsigned int GetHeight() const { return m_Height; }
 
-		std::string ToString() const override
+		[[nodiscard]] virtual std::string ToString() const override
 		{
 			return fmt::format("{}: {}, {}", GetName(), m_Width, m_Height);
 		}

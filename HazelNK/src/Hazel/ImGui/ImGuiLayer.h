@@ -1,9 +1,9 @@
 #pragma once
 
-#include <imgui.h>
-
 #include "Hazel/Layer.h"
 #include "Hazel/Events/Event.h"
+
+#include <imgui.h>
 
 namespace nk
 {
@@ -11,12 +11,12 @@ namespace nk
 	{
 	public:
 		ImGuiLayer();
-		~ImGuiLayer() override;
+		virtual ~ImGuiLayer() override;
 
-		void OnAttach() override;
-		void OnDetach() override;
-		void OnUpdate() override;
-		void OnEvent(Event& event) override;
+		virtual void OnAttach() override;
+		virtual void OnDetach() override;
+		virtual void OnUpdate() override;
+		virtual void OnEvent(Event& event) override;
 
 		static ImGuiKey ImGui_ImplGlfw_KeyToImGuiKey(int key);
 	private:

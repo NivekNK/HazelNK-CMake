@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Hazel/Core.h"
-#include "Layer.h"
+#include "Hazel/Layer.h"
 
 namespace nk
 {

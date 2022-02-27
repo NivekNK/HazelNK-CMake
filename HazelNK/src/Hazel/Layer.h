@@ -8,7 +8,7 @@ namespace nk
 	class NK_API Layer
 	{
 	public:
-		Layer(const std::string& debugName = "Layer");
+		explicit Layer(std::string debugName = "Layer");
 		virtual ~Layer();
 
 		virtual void OnAttach() {}

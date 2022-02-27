@@ -28,9 +28,7 @@ namespace nk
         m_Dispatcher.AddListener(EventType::WindowResize, NK_BIND_EVENT_FN(OnWindowResizeEvent));
 	}
 
-    ImGuiLayer::~ImGuiLayer()
-	{
-	}
+    ImGuiLayer::~ImGuiLayer() = default;
 
 	void ImGuiLayer::OnAttach()
 	{

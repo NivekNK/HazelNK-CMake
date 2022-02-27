@@ -7,8 +7,8 @@ namespace nk
 	class NK_API KeyEvent : public Event
 	{
 	public:
-		int GetKeyCode() const { return m_KeyCode; }
-		int GetMods() const { return m_Mods; }
+		[[nodiscard]] int GetKeyCode() const { return m_KeyCode; }
+		[[nodiscard]] int GetMods() const { return m_Mods; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
@@ -25,9 +25,9 @@ namespace nk
 		KeyPressedEvent(const int keycode, const int mods, const int repeatCount)
 			: KeyEvent(keycode, mods), m_RepeatCount(repeatCount) {}
 
-		int GetRepeatCunt() const { return m_RepeatCount; }
+		[[nodiscard]] int GetRepeatCunt() const { return m_RepeatCount; }
 
-		std::string ToString() const override
+		[[nodiscard]] virtual std::string ToString() const override
 		{
 			return fmt::format("{}: {} ({} repeats)", GetName(), m_KeyCode, m_RepeatCount);
 		}
@@ -43,7 +43,7 @@ namespace nk
 		KeyReleasedEvent(const int keycode, const int mods)
 			: KeyEvent(keycode, mods) {}
 
-		std::string ToString() const override
+		[[nodiscard]] virtual std::string ToString() const override
 		{
 			return fmt::format("{}: {}", GetName(), m_KeyCode);
 		}
@@ -57,7 +57,7 @@ namespace nk
 		KeyTypedEvent(const int keycode, const int mods)
 			: KeyEvent(keycode, mods) {}
 
-		std::string ToString() const override
+		[[nodiscard]] virtual std::string ToString() const override
 		{
 			return fmt::format("{}: {}", GetName(), m_KeyCode);
 		}

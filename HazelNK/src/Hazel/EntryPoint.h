@@ -2,7 +2,8 @@
 
 #ifdef NK_PLATFORM_WINDOWS
 
-extern nk::Application* nk::CreateApplication();
+// TODO: Change this if the creation of the application stop working
+//extern nk::Application* nk::CreateApplication();
 
 int main(int argc, char** argv)
 {
@@ -20,7 +21,7 @@ int main(int argc, char** argv)
 	DebugError("Hola {}", "Mundo");
 	DebugFatal("Hola {}", "Mundo");
 
-	auto app = nk::CreateApplication();
+	const auto app = nk::CreateApplication();
 	app->Run();
 	delete app;
 }

@@ -15,3 +15,5 @@ file(GLOB SOURCES
 )
 
 add_library(ImGui STATIC ${SOURCES})
+
+target_include_directories(ImGui PRIVATE imgui)

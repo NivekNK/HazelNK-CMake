@@ -4,10 +4,8 @@
 
 namespace nk
 {
-	Layer::Layer(const std::string& debugName)
-		: m_DebugName(debugName) {}
+	Layer::Layer(std::basic_string<char> debugName)
+		: m_DebugName(std::move(debugName)) {}
 
-	Layer::~Layer()
-	{
-	}
+	Layer::~Layer() = default;
 }

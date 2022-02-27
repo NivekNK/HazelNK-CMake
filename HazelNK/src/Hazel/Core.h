@@ -10,6 +10,10 @@
 	#error Hazel Only supports Windows!
 #endif
 
+#ifdef NK_DEBUG
+	#define NK_ENABLE_ASSERTS
+#endif
+
 #ifdef NK_ENABLE_ASSERTS
 	#define NK_ASSERT(x, ...) { if(!(x)) { DebugError("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 	#define NK_CORE_ASSERT(x, ...) { if(!(x)) { DebugCoreError("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }

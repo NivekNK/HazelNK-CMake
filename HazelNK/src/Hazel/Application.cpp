@@ -19,9 +19,7 @@ namespace nk
 		m_Dispatcher.AddListener(EventType::WindowClose, NK_BIND_EVENT_FN(OnWindowClose));
 	}
 
-	Application::~Application()
-	{
-	}
+	Application::~Application() = default;
 
 	void Application::Run()
 	{

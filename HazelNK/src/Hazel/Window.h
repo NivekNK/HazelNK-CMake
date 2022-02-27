@@ -13,9 +13,9 @@ namespace nk
 		unsigned int Width;
 		unsigned int Height;
 
-		WindowProps(std::string title = "HazelNK Engine",
-		            const unsigned int width = 1200,
-		            const unsigned int height = 720)
+		explicit WindowProps(std::string title = "HazelNK Engine",
+		                     const unsigned int width = 1200,
+		                     const unsigned int height = 720)
 			: Title(std::move(title)), Width(width), Height(height) {}
 	};
 
@@ -28,12 +28,12 @@ namespace nk
 
 		virtual void OnUpdate() = 0;
 
-		virtual unsigned int GetWidth() const = 0;
-		virtual unsigned int GetHeight() const = 0;
+		[[nodiscard]] virtual unsigned int GetWidth() const = 0;
+		[[nodiscard]] virtual unsigned int GetHeight() const = 0;
 
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void SetVSync(bool enabled) = 0;
-		virtual bool IsVSync() const = 0;
+		[[nodiscard]] virtual bool IsVSync() const = 0;
 
 		static Window* Create(const WindowProps& props = WindowProps());
 	};

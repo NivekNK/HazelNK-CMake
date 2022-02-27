@@ -10,10 +10,10 @@ namespace nk
 		MouseMovedEvent(const float x, const float y)
 			: m_MouseX(x), m_MouseY(y) {}
 
-		float GetX() const { return m_MouseX; }
-		float GetY() const { return m_MouseY; }
+		[[nodiscard]] float GetX() const { return m_MouseX; }
+		[[nodiscard]] float GetY() const { return m_MouseY; }
 
-		std::string ToString() const override
+		[[nodiscard]] virtual std::string ToString() const override
 		{
 			return fmt::format("{}: {}, {}", GetName(), m_MouseX, m_MouseY);
 		}
@@ -30,10 +30,10 @@ namespace nk
 		MouseScrolledEvent(const float xOffset, const float yOffset)
 			: m_XOffset(xOffset), m_YOffset(yOffset) {}
 
-		float GetXOffset() const { return m_XOffset; }
-		float GetYOffset() const { return m_YOffset; }
+		[[nodiscard]] float GetXOffset() const { return m_XOffset; }
+		[[nodiscard]] float GetYOffset() const { return m_YOffset; }
 
-		std::string ToString() const override
+		[[nodiscard]] virtual std::string ToString() const override
 		{
 			return fmt::format("{}: {}, {}", GetName(), m_XOffset, m_YOffset);
 		}
@@ -47,16 +47,16 @@ namespace nk
 	class NK_API MouseButtonEvent : public Event
 	{
 	public:
-		int GetMouseButton() const { return m_Button; }
+		[[nodiscard]] int GetMouseButton() const { return m_Button; }
 
-		std::string ToString() const override
+		[[nodiscard]] virtual std::string ToString() const override
 		{
 			return fmt::format("{}: {}", GetName(), m_Button);
 		}
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		MouseButtonEvent(const int button)
+		explicit MouseButtonEvent(const int button)
 			: m_Button(button) {}
 
 		int m_Button;
@@ -65,7 +65,7 @@ namespace nk
 	class NK_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(const int button)
+		explicit MouseButtonPressedEvent(const int button)
 			: MouseButtonEvent(button) {}
 
 		EVENT_CLASS_TYPE(MouseButtonPressed)
@@ -74,7 +74,7 @@ namespace nk
 	class NK_API MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(const int button)
+		explicit MouseButtonReleasedEvent(const int button)
 			: MouseButtonEvent(button) {}
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)
