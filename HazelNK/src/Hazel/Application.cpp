@@ -12,7 +12,7 @@ namespace nk
 
 	Application::Application()
 	{
-		NK_CORE_ASSERT(!s_Instance, "Application already exists!");
+		NK_CORE_ASSERT(!s_Instance, "Application already exists!")
 		s_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
@@ -32,14 +32,6 @@ namespace nk
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
-
-			auto [x, y] = Input::GetMousePosition();
-			DebugCoreTrace("{}, {}", x, y);
-
-			if (Input::IsMouseButtonPressed(0))
-			{
-				DebugCoreInfo("Pressed {}", 0);
-			}
 
 			m_Window->OnUpdate();
 		}

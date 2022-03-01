@@ -1,5 +1,7 @@
 #include <Hazel.h>
 
+#include "Events/KeyEvent.h"
+
 class ExampleLayer : public nk::Layer
 {
 public:
@@ -7,12 +9,17 @@ public:
 
 	void OnUpdate() override
 	{
-		//DebugInfo("ExampleLayer::Update");
+		if (nk::Input::IsKeyPressed(NK_KEY_TAB))
+			DebugInfo("Pressed Key Tab!");
 	}
 
 	void OnEvent(nk::Event& event) override
 	{
-		//DebugTrace(event);
+		if (event.GetEventType() == nk::EventType::KeyPressed)
+		{
+			const auto& e = dynamic_cast<nk::KeyPressedEvent&>(event);
+			DebugTrace(static_cast<char>(e.GetKeyCode()));
+		}
 	}
 };
 

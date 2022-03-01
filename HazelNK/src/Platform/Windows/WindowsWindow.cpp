@@ -47,15 +47,15 @@ namespace nk
 		{
 			//TODO: glfwTerminate on system shutdown
 			const int success = glfwInit();
-			NK_CORE_ASSERT(success, "Could not initialize GLFW!");
+			NK_CORE_ASSERT(success, "Could not initialize GLFW!")
 			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
 
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		m_Window = glfwCreateWindow(static_cast<int>(props.Width), static_cast<int>(props.Height), m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
 		const int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
-		NK_CORE_ASSERT(status, "Failed to initialize Glad!");
+		NK_CORE_ASSERT(status, "Failed to initialize Glad!")
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
